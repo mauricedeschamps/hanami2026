@@ -1,0 +1,28 @@
+{
+  "name": "Tokyo Hanami 2026 - 11 Cherry Blossom Spots",
+  "short_name": "Hanami2026",
+  "description": "Discover 11 beautiful cherry blossom spots in Tokyo. Complete guide with maps, best viewing times, and local tips.",
+  "start_url": "/hanami2026/",
+  "display": "standalone",
+  "background_color": "#362f4a",
+  "theme_color": "#362f4a",
+  "orientation": "portrait",
+  "scope": "/hanami2026/",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["travel", "lifestyle", "japan", "nature"],
+  "icons": [
+    {
+      "src": "/hanami2026/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/hanami2026/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
