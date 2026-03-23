@@ -55,6 +55,32 @@
             border-top-color: #d9c9ba;
         }
         
+        /* スポンサー枠スタイル */
+        .sponsor-box {
+            background-color: rgba(170, 78, 106, 0.1);
+            border: 1px solid #aa4e6a;
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            color: #ffa5b9;
+            transition: 0.2s;
+        }
+        body.light-mode .sponsor-box {
+            background-color: rgba(170, 78, 106, 0.08);
+            border-color: #aa4e6a;
+            color: #aa4e6a;
+        }
+        .sponsor-box a {
+            color: inherit;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .sponsor-box a:hover {
+            text-decoration: underline;
+        }
+        
         .main-content {
             flex: 1;
             width: 100%;
@@ -453,7 +479,7 @@
 
     <div class="main-content">
         <h1 id="main-title">🌸 Tokyo Hanami 2026</h1>
-        <div class="sub" id="main-sub">11 must-see cherry blossom spots in Tokyo</div>
+        <div class="sub" id="main-sub">12 must-see cherry blossom spots in Tokyo</div>
 
         <div class="lang-switcher">
             <button class="lang-btn active" data-lang="en">🇬🇧 English</button>
@@ -468,11 +494,19 @@
         </div>
 
         <div id="listView">
+            <!-- 上部スポンサー枠 -->
+            <div id="sponsorListTop" class="sponsor-box">
+                🌸 スポンサー | お花見グッズ特集 → <a href="#">公式サイト</a>
+            </div>
             <div class="spots-grid" id="spotsContainer"></div>
+            <!-- 下部スポンサー枠 -->
+            <div id="sponsorListBottom" class="sponsor-box">
+                🌸 協賛企業 | 春のキャンペーン実施中 → <a href="#">詳細はこちら</a>
+            </div>
         </div>
 
         <div id="detailView" class="hidden">
-            <div class="detail-container" id="detailContent"></div>
+            <!-- 詳細コンテンツは動的に挿入、スポンサー枠もJSで追加 -->
         </div>
 
         <footer>
@@ -482,7 +516,7 @@
     </div>
 
     <script>
-        // 11スポットのデータ (英語・日本語・中国語)
+        // 12スポットのデータ (芝公園を追加)
         const spotsData = {
             en: [
                 { id: 1, title: "Ueno Park", location: "Taito City, Tokyo", bestTime: "Late March – Early April", desc: "One of Japan's most famous cherry blossom spots since the Edo period. Approximately 800 cherry trees of over 50 varieties line the park. The cherry tunnel leading to Bentendo Temple and blossoms around Shinobazu Pond are spectacular. Night illuminations create a magical atmosphere.", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3002_01.jpg", fee: "Free", officialUrl: "https://www.kensetsu.metro.tokyo.lg.jp/jimusho/ueno/" },
@@ -495,7 +529,9 @@
                 { id: 8, title: "Rikugi-en Garden", location: "Bunkyo City, Tokyo", bestTime: "Late March – Early April", desc: "An exquisite stroll garden from the Edo period. The massive weeping cherry tree is the main attraction, creating a breathtaking display. Evening illuminations add a magical dimension. A quieter, more contemplative cherry viewing experience.", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3003_01.jpg", fee: "¥300 (General admission)", officialUrl: "https://www.tokyo-park.or.jp/park/format/index035.html" },
                 { id: 9, title: "Chidorigafuchi", location: "Chiyoda City, Tokyo", bestTime: "Late March – Early April", desc: "One of Tokyo's most spectacular cherry blossom spots, featuring a 700-meter-long moat lined with approximately 260 cherry trees. Rent a rowboat for a unique perspective of the blossoms from the water. The path along the moat is perfect for a romantic stroll. Night illuminations create a magical atmosphere with the blossoms reflected in the water.", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3007_01.jpg", fee: "Free (Boat rental: ¥800-¥1,200)", officialUrl: "https://www.env.go.jp/garden/chidorigafuchi/" },
                 { id: 10, title: "Hibiya Park", location: "Chiyoda City, Tokyo", bestTime: "Late March – Early April", desc: "Tokyo's first Western-style park, established in 1903. Features around 180 cherry trees, including some beautiful weeping cherry varieties. Located in the heart of Tokyo, it's a peaceful oasis amidst the skyscrapers. The park hosts various spring events and offers a relaxing hanami experience away from the crowds.", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3008_01.jpg", fee: "Free", officialUrl: "https://www.tokyo-park.or.jp/park/format/index005.html" },
-                { id: 11, title: "Yoyogi Park", location: "Shibuya City, Tokyo", bestTime: "Late March – Early April", desc: "One of Tokyo's largest city parks, with approximately 600 cherry trees. The wide open spaces make it perfect for picnics and relaxed hanami parties. The park has a vibrant, energetic atmosphere, especially on weekends. Close to Harajuku and Meiji Shrine, it's a great spot to combine cherry blossom viewing with Tokyo sightseeing.", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3009_01.jpg", fee: "Free", officialUrl: "https://www.tokyo-park.or.jp/park/format/index007.html" }
+                { id: 11, title: "Yoyogi Park", location: "Shibuya City, Tokyo", bestTime: "Late March – Early April", desc: "One of Tokyo's largest city parks, with approximately 600 cherry trees. The wide open spaces make it perfect for picnics and relaxed hanami parties. The park has a vibrant, energetic atmosphere, especially on weekends. Close to Harajuku and Meiji Shrine, it's a great spot to combine cherry blossom viewing with Tokyo sightseeing.", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3009_01.jpg", fee: "Free", officialUrl: "https://www.tokyo-park.or.jp/park/format/index007.html" },
+                // 新規: 芝公園
+                { id: 12, title: "Shiba Park", location: "Minato City, Tokyo", bestTime: "Late March – Early April", desc: "A historic park adjacent to Tokyo Tower. About 200 cherry trees, including Somei-Yoshino and Oshima-zakura, create a beautiful contrast with the iconic red tower. One of Tokyo's oldest parks, offering a spacious lawn perfect for hanami picnics with a spectacular view.", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3010_01.jpg", fee: "Free", officialUrl: "https://www.tokyo-park.or.jp/park/format/index008.html" }
             ],
             ja: [
                 { id: 1, title: "上野恩賜公園", location: "東京都台東区", bestTime: "見頃：3月下旬～4月上旬", desc: "江戸時代から続くお花見のメッカ。約800本、50種類以上の桜が楽しめます。さくら通りや不忍池周辺の桜並木は圧巻。夜はぼんぼりライトアップも実施されます。", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3002_01.jpg", fee: "無料", officialUrl: "https://www.kensetsu.metro.tokyo.lg.jp/jimusho/ueno/" },
@@ -508,7 +544,9 @@
                 { id: 8, title: "六義園", location: "東京都文京区", bestTime: "見頃：3月下旬～4月上旬", desc: "しだれ桜の巨木が有名な回遊式庭園。春には大きなしだれ桜が見事に咲き誇り、夜間ライトアップも幻想的です。落ち着いた雰囲気で桜を鑑賞できます。", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3003_01.jpg", fee: "有料（一般300円）", officialUrl: "https://www.tokyo-park.or.jp/park/format/index035.html" },
                 { id: 9, title: "千鳥ヶ淵", location: "東京都千代田区", bestTime: "見頃：3月下旬～4月上旬", desc: "東京で最も壮観な桜の名所の一つ。約700mの堀に沿って約260本の桜が咲き誇ります。ボートに乗って水上から桜を眺めるのもおすすめ。夜間ライトアップは幻想的で、水面に映る桜は格別です。", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3007_01.jpg", fee: "無料（ボート代：800円～1,200円）", officialUrl: "https://www.env.go.jp/garden/chidorigafuchi/" },
                 { id: 10, title: "日比谷公園", location: "東京都千代田区", bestTime: "見頃：3月下旬～4月上旬", desc: "1903年に開園した日本初の西洋式公園。約180本の桜があり、美しいしだれ桜も見られます。都会のオアシスとして親しまれ、のんびりと花見を楽しめる穴場スポットです。", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3008_01.jpg", fee: "無料", officialUrl: "https://www.tokyo-park.or.jp/park/format/index005.html" },
-                { id: 11, title: "代々木公園", location: "東京都渋谷区", bestTime: "見頃：3月下旬～4月上旬", desc: "都内最大級の公園の一つで、約600本の桜が楽しめます。広々とした芝生でのピクニックに最適。週末は多くの人で賑わい、活気あふれる花見スポットです。原宿や明治神宮にも近く、観光と併せて楽しめます。", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3009_01.jpg", fee: "無料", officialUrl: "https://www.tokyo-park.or.jp/park/format/index007.html" }
+                { id: 11, title: "代々木公園", location: "東京都渋谷区", bestTime: "見頃：3月下旬～4月上旬", desc: "都内最大級の公園の一つで、約600本の桜が楽しめます。広々とした芝生でのピクニックに最適。週末は多くの人で賑わい、活気あふれる花見スポットです。原宿や明治神宮にも近く、観光と併せて楽しめます。", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3009_01.jpg", fee: "無料", officialUrl: "https://www.tokyo-park.or.jp/park/format/index007.html" },
+                // 新規: 芝公園
+                { id: 12, title: "芝公園", location: "東京都港区", bestTime: "見頃：3月下旬～4月上旬", desc: "東京タワーに隣接する歴史ある公園。約200本のソメイヨシノやオオシマザクラが、赤い東京タワーとの美しいコントラストを生み出します。都内最古の公園の一つで、芝生広場でのんびりとお花見を楽しめます。", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3010_01.jpg", fee: "無料", officialUrl: "https://www.tokyo-park.or.jp/park/format/index008.html" }
             ],
             zh: [
                 { id: 1, title: "上野公园", location: "东京都台东区", bestTime: "3月下旬～4月上旬", desc: "江户时代以来的赏樱胜地。约800棵、50多种樱花。", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3002_01.jpg", fee: "免费", officialUrl: "https://www.kensetsu.metro.tokyo.lg.jp/jimusho/ueno/" },
@@ -521,7 +559,9 @@
                 { id: 8, title: "六义园", location: "东京都文京区", bestTime: "3月下旬～4月上旬", desc: "著名的垂枝樱，夜间点灯。门票300日元。", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3003_01.jpg", fee: "300日元", officialUrl: "https://www.tokyo-park.or.jp/park/format/index035.html" },
                 { id: 9, title: "千鸟渊", location: "东京都千代田区", bestTime: "3月下旬～4月上旬", desc: "东京最壮观的赏樱胜地之一。约700米的护城河边种植了约260棵樱花树。可以租船从水面上欣赏樱花。夜间灯光照明营造出梦幻般的氛围。", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3007_01.jpg", fee: "免费（游船租金：800～1,200日元）", officialUrl: "https://www.env.go.jp/garden/chidorigafuchi/" },
                 { id: 10, title: "日比谷公园", location: "东京都千代田区", bestTime: "3月下旬～4月上旬", desc: "1903年开放的日本首个西式公园。约有180棵樱花树，包括美丽的垂枝樱。位于东京市中心，是一个宁静的绿洲，可以远离人群轻松赏樱。", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3008_01.jpg", fee: "免费", officialUrl: "https://www.tokyo-park.or.jp/park/format/index005.html" },
-                { id: 11, title: "代代木公园", location: "东京都涩谷区", bestTime: "3月下旬～4月上旬", desc: "东京最大的城市公园之一，约有600棵樱花树。宽阔的草坪非常适合野餐和休闲赏樱。周末氛围活泼热闹，是观赏樱花和感受东京活力的绝佳场所。", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3009_01.jpg", fee: "免费", officialUrl: "https://www.tokyo-park.or.jp/park/format/index007.html" }
+                { id: 11, title: "代代木公园", location: "东京都涩谷区", bestTime: "3月下旬～4月上旬", desc: "东京最大的城市公园之一，约有600棵樱花树。宽阔的草坪非常适合野餐和休闲赏樱。周末氛围活泼热闹，是观赏樱花和感受东京活力的绝佳场所。", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3009_01.jpg", fee: "免费", officialUrl: "https://www.tokyo-park.or.jp/park/format/index007.html" },
+                // 新規: 芝公园
+                { id: 12, title: "芝公园", location: "东京都港区", bestTime: "3月下旬～4月上旬", desc: "毗邻东京塔的历史公园。约200棵染井吉野樱和大岛樱与红色东京塔形成美丽对比。是东京最古老的公园之一，可以在草坪上悠闲赏樱。", imageUrl: "https://www.japan-guide.com/thumb/XYX100x150_/g23/3010_01.jpg", fee: "免费", officialUrl: "https://www.tokyo-park.or.jp/park/format/index008.html" }
             ]
         };
 
@@ -577,9 +617,9 @@
             zh: '🌸 东京樱花2026' 
         };
         const subs = { 
-            en: '11 must-see cherry blossom spots in Tokyo',
-            ja: '都内で楽しむ絶景桜スポット11選', 
-            zh: '东京都内11个赏樱名胜' 
+            en: '12 must-see cherry blossom spots in Tokyo',
+            ja: '都内で楽しむ絶景桜スポット12選', 
+            zh: '东京都内12个赏樱名胜' 
         };
 
         function handleImageError(img) {
@@ -626,6 +666,18 @@
             });
         }
 
+        // スポンサー枠コンテンツ（共通）
+        function createSponsorBox(position) {
+            const box = document.createElement('div');
+            box.className = 'sponsor-box';
+            if (position === 'top') {
+                box.innerHTML = '🌸 スポンサー | お花見グッズ特集 → <a href="#">公式サイト</a>';
+            } else {
+                box.innerHTML = '🌸 協賛企業 | 春のキャンペーン実施中 → <a href="#">詳細はこちら</a>';
+            }
+            return box;
+        }
+
         function showDetail(spotId) {
             currentSpotId = spotId;
             const spot = spotsData[currentLang].find(s => s.id === spotId);
@@ -637,8 +689,14 @@
                 zh: '官方网站 →' 
             };
 
+            // 詳細コンテナをクリア
             detailContent.innerHTML = '';
 
+            // 上部スポンサー枠を追加
+            const sponsorTop = createSponsorBox('top');
+            detailContent.appendChild(sponsorTop);
+
+            // 画像要素
             const img = document.createElement('img');
             img.src = spot.imageUrl;
             img.alt = spot.title;
@@ -653,6 +711,7 @@
             };
             detailContent.appendChild(img);
             
+            // テキスト情報
             const textDiv = document.createElement('div');
             textDiv.innerHTML = `
                 <div class="detail-title">${spot.title}</div>
@@ -663,6 +722,10 @@
                 <a href="${spot.officialUrl}" class="official-link" target="_blank" rel="noopener">${officialLinkText[currentLang]}</a>
             `;
             detailContent.appendChild(textDiv);
+
+            // 下部スポンサー枠を追加
+            const sponsorBottom = createSponsorBox('bottom');
+            detailContent.appendChild(sponsorBottom);
 
             listView.classList.add('hidden');
             detailView.classList.remove('hidden');
@@ -710,7 +773,7 @@
 
         document.getElementById('backToList').addEventListener('click', backToList);
 
-        // Initial render
+        // 初期描画
         renderSpots('en');
 
         // Service Worker registration with explicit scope
