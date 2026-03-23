@@ -506,7 +506,8 @@
         </div>
 
         <div id="detailView" class="hidden">
-            <!-- 詳細コンテンツは動的に挿入、スポンサー枠もJSで追加 -->
+            <!-- 詳細コンテンツ挿入用のコンテナ (ここに追加) -->
+            <div id="detailContent" class="detail-container"></div>
         </div>
 
         <footer>
@@ -603,7 +604,7 @@
         const container = document.getElementById('spotsContainer');
         const detailView = document.getElementById('detailView');
         const listView = document.getElementById('listView');
-        const detailContent = document.getElementById('detailContent');
+        const detailContent = document.getElementById('detailContent');  // 修正: 正しく取得できる
         const backButtonContainer = document.getElementById('backButtonContainer');
         const langBtns = document.querySelectorAll('.lang-btn');
         const themeToggle = document.getElementById('themeToggle');
